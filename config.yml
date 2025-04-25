@@ -37,7 +37,6 @@ blocking:
     test:
       - |
         *.example.com
-	/example/        
     ultimate:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/ultimate.txt
     gambling:

@@ -33,7 +33,7 @@ async fn report(report: web::Json<Report>) -> actix_web::Result<impl Responder> 
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
-        .open("reported_urls.txt")
+        .open("~/blocked_page/urls/reported_urls.txt")
         .map_err(|e| {
             eprintln!("error while opening report file: {}", e);
             actix_web::error::ErrorInternalServerError("Failed to write report")
@@ -49,7 +49,7 @@ async fn report(report: web::Json<Report>) -> actix_web::Result<impl Responder> 
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    let path = "forbidden.html";
+    let path = "~/blocked_page/forbidden.html";
 
     let metadata = fs::metadata(path)?;
     let modified_time = metadata.modified().unwrap_or(SystemTime::now());

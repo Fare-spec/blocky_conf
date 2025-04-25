@@ -1,0 +1,15 @@
+[Unit]
+Description=Rust Block Page Web Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/blocked_page_server
+WorkingDirectory=/home/test/blocked_page
+Restart=always
+User=test
+Environment=RUST_LOG=info
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 Forbidden</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background-color: #e0f7ff; /* pale blue */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 2rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #007acc; /* blue accent */
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.125rem;
+      color: #333333;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #007acc;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>403 Forbidden</h1>
+    <p>Désolé, vous n'avez pas la permission d'accéder à cette ressource.</p>
+    <a href="javascript:history.back()" class="btn">Revenir en arrière</a>
+  </div>
+  <button onclick="fetch('/report', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ url: window.location.href })
+}).then(()=>alert('URL envoyée !'));">Signaler cette URL</button>
+
+</body>
+</html>
+
+
+

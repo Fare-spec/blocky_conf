@@ -70,18 +70,6 @@ blocking:
   # optional: TTL for answers to blocked domains
   # default: 6h
   blockTTL: 1m
-  # optional: automatically list refresh period (in duration format). Default: 4h.
-  # Negative value -> deactivate automatically refresh.
-  # 0 value -> use default
-  refreshPeriod: 1h
-  # optional: timeout for list download (each url). Default: 60s. Use large values for big lists or slow internet connections
-  downloadTimeout: 4m
-  # optional: Download attempt timeout. Default: 60s
-  downloadAttempts: 5
-  # optional: Time between the download attempts. Default: 1s
-  downloadCooldown: 10s
-  # optional: if failOnError, application startup will fail if at least one list can't be downloaded / opened. Default: blocking
-  startStrategy: failOnError
 
 # optional: configuration for caching of DNS responses
 caching:

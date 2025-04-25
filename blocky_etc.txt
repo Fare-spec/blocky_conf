@@ -1,0 +1,75 @@
+sudo apt update -y && sudo apt upgrade -y
+curl -L https://github.com/0xERR0R/blocky/releases/download/v0.25/blocky_v0.25_Linux_x86_64.tar.gz | tar -xz
+sudo mv blocky /usr/local/bin/
+sudo chmod +x /usr/local/bin/blocky
+sudo setcap 'cap_net_bind_service=+ep' /usr/local/bin/blocky # Pour avoir le privilège nécessaire d'ecouter sur le port 53
+sudo useradd -r -d /etc/blocky -s /usr/sbin/nologin blocky # un utilisateur dedié a blocky
+sudo mkdir -p /etc/blocky && sudo chown blocky:blocky /etc/blocky
+
+### Creation du fichier de conf et
+cd /etc/blocky/
+sudo wget ...config.yml
+sudo wget -r ...blacklists...
+cd /etc/systemd/system/
+sudo wget blocky.service..
+sudo systemctl daemon-reload
+sudo systemctl enable --now blocky
+sudo systemctl status blocky
+
+### Bloquer systemd-resolved pour eviter les conflits
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+sudo systemctl restart blocky
+# pour verifier l'utilisation du port
+sudo ss -plunt | grep :53
+
+### Installation et configuration prometheus
+sudo apt install -y prometheus
+cd /etc/prometheus/
+sudo nano prometheus.yml #ajouter la config pour blocky
+sudo systemctl restart prometheus
+
+
+# Installer grafana
+sudo apt-get install -y apt-transport-https software-properties-common wget
+sudo mkdir -p /etc/apt/keyrings/
+wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+sudo apt-get update
+sudo apt-get install grafana -y
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server
+sudo systemctl status grafana-server
+
+### installer mariadb pour les queries
+sudo apt install mariadb-server -y
+sudo mysql
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES on *.* TO 'test'@'localhost';
+FLUSH PRIVILEGES;
+exit
+mysql -u test -p
+CREATE DATABASE blocky;
+exit
+
+### Aller sur la page {addr_ip}:3000/login
+### user:admin, password: admin
+### Connections->Data sources->Add data sources->prometheus
+### entrer http://localhost:9090 -> Save & test
+### Dashboards->new->import
+### Ajouter dans le champ url/ID: 13768
+### Dans Prometheus selectionner la source default 
+### Dans blocky api url, mettre localhost:4000
+
+### aller sur Connections->data source-> Add data sources-> Mysql
+### Host url: localhost:3306
+### database name: blocky
+### username: test
+### password: pass
+
+### aller sur dashboard -> new -> import -> url/id:14980
+### load->mysql -> select mysql -> import
+
+
+
+

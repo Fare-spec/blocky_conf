@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 ExecStart=/usr/local/bin/blocked_page_server
-WorkingDirectory=/home/test/blocked_page
+WorkingDirectory=/usr/local/share/blocked_page
 Restart=always
-User=test
+User={user}
 Environment=RUST_LOG=info
 StandardOutput=journal
 StandardError=journal

@@ -48,9 +48,7 @@ async fn report(report: web::Json<Report>) -> actix_web::Result<impl Responder> 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
-
     let path = "/usr/local/share/forbidden.html";
-
     let metadata = fs::metadata(path)?;
     let modified_time = metadata.modified().unwrap_or(SystemTime::now());
     let initial_html = fs::read_to_string(path).unwrap_or_default();
